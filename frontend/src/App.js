@@ -4,6 +4,7 @@ import "./mobile.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LinkTreePage from "./components/LinkTreePage";
 import CreatePage from "./components/CreatePage";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
