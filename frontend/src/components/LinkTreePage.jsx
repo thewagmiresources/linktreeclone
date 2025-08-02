@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Share2, Calendar, Eye, TrendingUp, Settings } from 'lucide-react';
+import { Share2, Calendar, Eye, TrendingUp, Settings, Wand2, Users, Shield, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
-import LinkCard from './LinkCard';
+import SmartLinkCard from './SmartLinkCard';
 import ThemeCustomizer from './ThemeCustomizer';
 import AnalyticsModal from './AnalyticsModal';
 import ShareModal from './ShareModal';
+import BrandKitMatcher from './BrandKitMatcher';
+import CommunityLayer from './CommunityLayer';
+import PrivacyAnalytics from './PrivacyAnalytics';
+import SEOGenerator from './SEOGenerator';
 import { mockUserData } from '../data/mockData';
 
 const LinkTreePage = ({ isPreview = false }) => {
