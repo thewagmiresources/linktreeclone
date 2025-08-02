@@ -37,12 +37,92 @@ const LinkTreePage = ({ isPreview = false }) => {
   });
 
   useEffect(() => {
-    // In real app, fetch user data based on username
-    if (isPreview) {
-      setUserData(mockUserData.preview);
-    } else {
-      setUserData(mockUserData.sampleUser);
-    }
+    const fetchUserData = async () => {
+      if (isPreview) {
+        // Use preview data from localStorage or fallback to mock
+        const previewData = localStorage.getItem('previewData');
+        if (previewData) {
+          const parsedData = JSON.parse(previewData);
+          setUserData({
+            ...mockUserData.preview,
+            ...parsedData,
+            stats: mockUserData.preview.stats,
+            links: parsedData.links || []
+          });
+        } else {
+          setUserData(mockUserData.preview);
+        }
+        setLoading(false);
+        return;
+      }
+
+      if (!username) {
+        setError('Username is required');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Check if backend is available
+        const isBackendAvailable = await apiService.isBackendAvailable();
+        
+        if (!isBackendAvailable) {
+          console.warn('Backend not available, using mock data');
+          setUserData(mockUserData.sampleUser);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch real user data
+        const result = await apiService.getUserByUsername(username);
+        
+        if (result.success) {
+          // Transform API data to match frontend format
+          const transformedUser = {
+            id: result.user.id,
+            name: result.user.name,
+            username: result.user.username,
+            bio: result.user.bio,
+            profilePhoto: result.user.profile_photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(result.user.name)}&background=random`,
+            coverPhoto: result.user.cover_photo || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop',
+            mode: result.user.mode,
+            theme: result.user.theme,
+            stats: {
+              totalClicks: result.user.stats.total_clicks,
+              totalViews: result.user.stats.total_views,
+              linkCount: result.user.stats.link_count
+            },
+            links: result.links.map(link => ({
+              id: link.id,
+              title: link.title,
+              url: link.url,
+              description: link.description,
+              image: link.image,
+              type: link.type,
+              clicks: link.clicks,
+              createdAt: link.created_at,
+              isAutoImported: link.is_auto_imported,
+              source: link.source
+            }))
+          };
+
+          setUserData(transformedUser);
+          setCurrentTheme(result.user.theme);
+
+          // Track page view
+          apiService.trackView({ username });
+        } else {
+          setError(result.error || 'User not found');
+        }
+      } catch (err) {
+        console.warn('API error, falling back to sample data:', err);
+        setUserData(mockUserData.sampleUser);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
   }, [username, isPreview]);
 
   const handleApplyBrandKit = (brandTheme) => {
