@@ -6,7 +6,9 @@ import { Textarea } from './ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Label } from './ui/label';
-import { Plus, Link, Upload, Palette, Eye, Smartphone, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Link, Upload, Palette, Eye, Smartphone, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { useToast } from '../hooks/use-toast';
+import apiService from '../services/api';
 
 const CreatePage = () => {
   const navigate = useNavigate();
