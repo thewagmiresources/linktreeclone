@@ -306,8 +306,15 @@ const CreatePage = () => {
                 <Eye className="w-4 h-4 mr-2" />
                 Preview
               </Button>
-              <Button onClick={handlePublish} className="flex-1 h-12">
-                Publish Page
+              <Button onClick={handlePublish} className="flex-1 h-12" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Publishing...
+                  </>
+                ) : (
+                  'Publish Page'
+                )}
               </Button>
             </div>
           </div>
