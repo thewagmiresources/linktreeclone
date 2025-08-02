@@ -20,6 +20,8 @@ import apiService from '../services/api';
 const LinkTreePage = ({ isPreview = false }) => {
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showCustomizer, setShowCustomizer] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showShare, setShowShare] = useState(false);
