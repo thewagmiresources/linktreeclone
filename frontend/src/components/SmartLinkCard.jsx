@@ -4,6 +4,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { ExternalLink, Calendar, ShoppingCart, Share, Play, Pause, Heart, Star, Crown, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import apiService from '../services/api';
 
 const SmartLinkCard = ({ link, theme, index, communityBadges = [], isMobile = false }) => {
   const [isPlaying, setIsPlaying] = useState(false);
