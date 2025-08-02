@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import "./mobile.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LinkTreePage from "./components/LinkTreePage";
 import CreatePage from "./components/CreatePage";
