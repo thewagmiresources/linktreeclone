@@ -12,6 +12,8 @@ import apiService from '../services/api';
 
 const CreatePage = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     username: '',
