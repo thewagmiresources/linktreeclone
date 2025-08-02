@@ -133,8 +133,15 @@ const CreatePage = () => {
               <Smartphone className="w-4 h-4 mr-1" />
               {showPreview ? 'Edit' : 'Preview'}
             </Button>
-            <Button onClick={handlePublish} size="sm">
-              Publish
+            <Button onClick={handlePublish} size="sm" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Publishing...
+                </>
+              ) : (
+                'Publish'
+              )}
             </Button>
           </div>
         </div>
