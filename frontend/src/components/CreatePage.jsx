@@ -58,10 +58,61 @@ const CreatePage = () => {
     navigate('/preview');
   };
 
-  const handlePublish = () => {
-    // In real app, save to backend
-    const username = formData.username || `user${Date.now()}`;
-    navigate(`/u/${username}`);
+  const handlePublish = async () => {
+    if (!formData.name.trim()) {
+      toast({
+        title: "Name Required",
+        description: "Please enter your name before publishing.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      // Create user
+      const userResult = await apiService.createAnonymousUser({
+        name: formData.name,
+        username: formData.username,
+        bio: formData.bio,
+        mode: formData.mode
+      });
+
+      if (userResult.success) {
+        const username = userResult.user.username;
+        
+        // Create links
+        for (const link of formData.links) {
+          await apiService.createLink({
+            username: username,
+            title: link.title,
+            url: link.url,
+            description: link.description,
+            type: 'custom'
+          });
+        }
+
+        toast({
+          title: "Page Published! 🎉",
+          description: `Your page is now live at /${username}`,
+        });
+
+        // Navigate to the new page
+        navigate(`/u/${username}`);
+      } else {
+        throw new Error(userResult.error || 'Failed to create user');
+      }
+    } catch (error) {
+      console.error('Publish error:', error);
+      toast({
+        title: "Publishing Failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
