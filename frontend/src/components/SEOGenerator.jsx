@@ -193,7 +193,7 @@ const SEOGenerator = ({ userData, onClose }) => {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label className="font-medium">Platform Support</Label>
+                      <div className="font-medium">Platform Support</div>
                       <div className="flex flex-wrap gap-1">
                         <Badge variant="outline">Discord</Badge>
                         <Badge variant="outline">Twitter</Badge>
