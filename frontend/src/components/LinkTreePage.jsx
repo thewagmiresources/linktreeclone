@@ -15,6 +15,7 @@ import CommunityLayer from './CommunityLayer';
 import PrivacyAnalytics from './PrivacyAnalytics';
 import SEOGenerator from './SEOGenerator';
 import { mockUserData } from '../data/mockData';
+import apiService from '../services/api';
 
 const LinkTreePage = ({ isPreview = false }) => {
   const { username } = useParams();
