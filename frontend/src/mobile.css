@@ -1,0 +1,139 @@
+/* Mobile-First Responsive Enhancements */
+
+/* Touch-friendly interactions */
+button, .card, [role="button"] {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+}
+
+/* Mobile-optimized scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent zoom on input focus */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* Mobile-first breakpoints */
+@media (max-width: 640px) {
+  /* Larger touch targets */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better mobile spacing */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Mobile card optimization */
+  .card {
+    margin-bottom: 0.75rem;
+    border-radius: 12px;
+  }
+  
+  /* Mobile typography */
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.125rem; }
+  
+  /* Mobile-friendly modals */
+  .modal-content {
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    max-width: 90%;
+  }
+  
+  .grid-cols-mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Touch device specific */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .hover-effect:hover {
+    transform: none;
+  }
+  
+  /* Show mobile-specific elements */
+  .mobile-only {
+    display: block !important;
+  }
+  
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* PWA specific styles */
+@media (display-mode: standalone) {
+  /* Hide browser UI elements */
+  .pwa-hide {
+    display: none;
+  }
+  
+  /* Adjust for status bar */
+  .pwa-content {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Dark mode support for mobile */
+@media (prefers-color-scheme: dark) {
+  /* Mobile dark theme adjustments */
+  .mobile-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+  }
+  
+  button {
+    border-width: 2px;
+  }
+}
+
+/* Mobile landscape optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .profile-photo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .cover-photo {
+    height: 120px;
+  }
+  
+  .mobile-spacing {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
