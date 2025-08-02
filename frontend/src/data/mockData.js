@@ -60,24 +60,23 @@ export const mockUserData = {
       },
       {
         id: "link_5",
-        title: "Book a Commission",
+        title: "Book a Commission - One-on-One Session",
         url: "https://calendly.com/alexcreative/commission",
         description: "Custom digital portraits and illustrations. Let's create something amazing together!",
         clicks: 876,
         createdAt: "2024-12-11T14:20:00Z",
-        type: "booking"
+        type: "event"
       },
       {
         id: "link_6",
-        title: "TikTok: Quick Art Tips",
-        url: "https://tiktok.com/@alexcreative",
-        description: "60-second art tutorials and creative challenges",
-        image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=200&fit=crop",
+        title: "My Latest Single: Creative Flow",
+        url: "https://spotify.com/track/creative-flow",
+        description: "Chill beats to inspire your creative sessions - now streaming everywhere",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop",
         clicks: 1234,
         createdAt: "2024-12-10T16:30:00Z",
-        type: "social",
-        isAutoImported: true,
-        source: "TikTok"
+        type: "music",
+        isAutoImported: false
       }
     ],
     analytics: {
