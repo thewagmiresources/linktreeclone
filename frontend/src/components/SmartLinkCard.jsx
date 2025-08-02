@@ -10,8 +10,18 @@ const SmartLinkCard = ({ link, theme, index, communityBadges = [], isMobile = fa
   const [isPlaying, setIsPlaying] = useState(false);
   const [showActions, setShowActions] = useState(false);
 
-  const handleClick = () => {
-    // In real app, track click analytics
+  const handleClick = async () => {
+    // Track click analytics
+    try {
+      await apiService.trackClick({
+        link_id: link.id,
+        referrer: document.referrer
+      });
+    } catch (error) {
+      console.warn('Click tracking failed:', error);
+    }
+    
+    // Open the link
     window.open(link.url, '_blank');
   };
 
