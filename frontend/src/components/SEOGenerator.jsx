@@ -184,7 +184,7 @@ const SEOGenerator = ({ userData, onClose }) => {
                   {/* OG Image Details */}
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="font-medium">Image Details</Label>
+                      <div className="font-medium">Image Details</div>
                       <div className="text-sm space-y-1">
                         <div>Dimensions: 1200 × 630px</div>
                         <div>Format: PNG with transparency</div>
