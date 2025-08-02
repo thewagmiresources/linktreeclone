@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkTree API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🚀 LinkTree API Testing Dashboard</h1>
+    <p>Test your PHP backend API endpoints before frontend integration.</p>
+
+    <!-- API Status -->
+    <div class="test-section" id="status-section">
+        <h2>1. API Status</h2>
+        <button onclick="testApiStatus()">Test API Connection</button>
+        <div id="status-result"></div>
+    </div>
+
+    <!-- Create User -->
+    <div class="test-section">
+        <h2>2. Create Anonymous User</h2>
+        <input type="text" id="user-name" placeholder="Enter name" value="Test User">
+        <input type="text" id="user-username" placeholder="Enter username (optional)" value="testuser123">
+        <textarea id="user-bio" placeholder="Enter bio" rows="3">🎨 Digital creator sharing my journey through art and design!</textarea>
+        <select id="user-mode">
+            <option value="creator">Creator Mode</option>
+            <option value="business">Business Mode</option>
+        </select>
+        <br>
+        <button onclick="createUser()">Create User</button>
+        <div id="create-user-result"></div>
+    </div>
+
+    <!-- Get User -->
+    <div class="test-section">
+        <h2>3. Get User Profile</h2>
+        <input type="text" id="get-username" placeholder="Enter username" value="alexcreative">
+        <button onclick="getUser()">Get User</button>
+        <button onclick="getUser('testuser123')">Get Test User</button>
+        <div id="get-user-result"></div>
+    </div>
+
+    <!-- Create Link -->
+    <div class="test-section">
+        <h2>4. Create Link</h2>
+        <input type="text" id="link-username" placeholder="Username" value="testuser123">
+        <input type="text" id="link-title" placeholder="Link title" value="My Portfolio Website">
+        <input type="text" id="link-url" placeholder="Link URL" value="https://example.com">
+        <textarea id="link-description" placeholder="Link description" rows="2">Check out my latest creative work and projects</textarea>
+        <select id="link-type">
+            <option value="custom">Custom</option>
+            <option value="social">Social</option>
+            <option value="store">Store</option>
+            <option value="video">Video</option>
+            <option value="music">Music</option>
+        </select>
+        <br>
+        <button onclick="createLink()">Create Link</button>
+        <div id="create-link-result"></div>
+    </div>
+
+    <!-- Track Analytics -->
+    <div class="test-section">
+        <h2>5. Analytics Tracking</h2>
+        <button onclick="trackView()">Track Page View</button>
+        <button onclick="trackClick()">Track Link Click</button>
+        <div id="analytics-result"></div>
+    </div>
+
+    <!-- Database Status -->
+    <div class="test-section">
+        <h2>6. Database Status</h2>
+        <button onclick="checkDatabase()">Check Database Tables</button>
+        <div id="database-result"></div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin + '/api';
+        
+        function displayResult(elementId, result, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <div class="${isSuccess ? 'success' : 'error'}" style="margin-top: 10px; padding: 10px; border-radius: 4px;">
+                    <strong>${isSuccess ? 'Success:' : 'Error:'}</strong>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        async function testApiStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                const data = await response.json();
+                displayResult('status-result', data);
+            } catch (error) {
+                displayResult('status-result', { error: error.message }, false);
+            }
+        }
+
+        async function createUser() {
+            try {
+                const userData = {
+                    name: document.getElementById('user-name').value,
+                    username: document.getElementById('user-username').value,
+                    bio: document.getElementById('user-bio').value,
+                    mode: document.getElementById('user-mode').value
+                };
+
+                const response = await fetch(`${API_BASE}/users/create-anonymous`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+                displayResult('create-user-result', data, data.success);
+                
+                if (data.success) {
+                    document.getElementById('get-username').value = data.user.username;
+                    document.getElementById('link-username').value = data.user.username;
+                }
+            } catch (error) {
+                displayResult('create-user-result', { error: error.message }, false);
+            }
+        }
+
+        async function getUser(username = null) {
+            try {
+                const usernameToGet = username || document.getElementById('get-username').value;
+                const response = await fetch(`${API_BASE}/users/${usernameToGet}`);
+                const data = await response.json();
+                displayResult('get-user-result', data, data.success);
+            } catch (error) {
+                displayResult('get-user-result', { error: error.message }, false);
+            }
+        }
+
+        async function createLink() {
+            try {
+                const linkData = {
+                    username: document.getElementById('link-username').value,
+                    title: document.getElementById('link-title').value,
+                    url: document.getElementById('link-url').value,
+                    description: document.getElementById('link-description').value,
+                    type: document.getElementById('link-type').value
+                };
+
+                const response = await fetch(`${API_BASE}/links`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(linkData)
+                });
+
+                const data = await response.json();
+                displayResult('create-link-result', data, data.success);
+            } catch (error) {
+                displayResult('create-link-result', { error: error.message }, false);
+            }
+        }
+
+        async function trackView() {
+            try {
+                const response = await fetch(`${API_BASE}/analytics/track-view`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: 'testuser123',
+                        referrer: 'test-dashboard'
+                    })
+                });
+
+                const data = await response.json();
+                displayResult('analytics-result', data, data.success);
+            } catch (error) {
+                displayResult('analytics-result', { error: error.message }, false);
+            }
+        }
+
+        async function trackClick() {
+            try {
+                const response = await fetch(`${API_BASE}/analytics/track-click`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        link_id: 1,
+                        referrer: 'test-dashboard'
+                    })
+                });
+
+                const data = await response.json();
+                displayResult('analytics-result', data, data.success);
+            } catch (error) {
+                displayResult('analytics-result', { error: error.message }, false);
+            }
+        }
+
+        async function checkDatabase() {
+            try {
+                // This is a simple check by trying to get a user
+                const response = await fetch(`${API_BASE}/users/alexcreative`);
+                const data = await response.json();
+                
+                if (data.success || data.error === 'User not found') {
+                    displayResult('database-result', { 
+                        status: 'Database connection working',
+                        tables: 'All tables appear to be created',
+                        sample_data: data.success ? 'Sample user found' : 'No sample user (normal for fresh install)'
+                    });
+                } else {
+                    displayResult('database-result', data, false);
+                }
+            } catch (error) {
+                displayResult('database-result', { error: error.message }, false);
+            }
+        }
+
+        // Auto-test API status on page load
+        window.onload = function() {
+            testApiStatus();
+        }
+    </script>
+</body>
+</html>
