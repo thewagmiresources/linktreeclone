@@ -57,6 +57,12 @@ const LinkTreePage = ({ isPreview = false }) => {
   };
 
   if (!userData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   const themeStyles = {
     'facebook-classic': {
@@ -103,7 +109,7 @@ const LinkTreePage = ({ isPreview = false }) => {
     <div className={`min-h-screen ${theme.background} transition-all duration-300`}>
       {/* Header Controls */}
       {isPreview && (
-        <div className="fixed top-4 right-4 z-50 flex gap-2">
+        <div className="fixed top-4 right-4 z-50 flex flex-wrap gap-2 max-w-md">
           <Button
             onClick={() => setShowCustomizer(true)}
             size="sm"
@@ -111,6 +117,38 @@ const LinkTreePage = ({ isPreview = false }) => {
           >
             <Settings className="w-4 h-4 mr-2" />
             Customize
+          </Button>
+          <Button
+            onClick={() => setShowBrandKit(true)}
+            size="sm"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+          >
+            <Wand2 className="w-4 h-4 mr-2" />
+            Brand Kit
+          </Button>
+          <Button
+            onClick={() => setShowCommunity(true)}
+            size="sm"
+            className={theme.buttonSecondary}
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Community
+          </Button>
+          <Button
+            onClick={() => setShowPrivacy(true)}
+            size="sm"
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Shield className="w-4 h-4 mr-2" />
+            Privacy
+          </Button>
+          <Button
+            onClick={() => setShowSEO(true)}
+            size="sm"
+            className={theme.buttonSecondary}
+          >
+            <Search className="w-4 h-4 mr-2" />
+            SEO
           </Button>
           <Button
             onClick={() => setShowAnalytics(true)}
@@ -210,11 +248,12 @@ const LinkTreePage = ({ isPreview = false }) => {
           
           <div className="space-y-4">
             {userData.links.map((link, index) => (
-              <LinkCard 
+              <SmartLinkCard 
                 key={link.id} 
                 link={link} 
                 theme={theme}
                 index={index}
+                communityBadges={communityBadges[link.id] || []}
               />
             ))}
           </div>
@@ -227,6 +266,35 @@ const LinkTreePage = ({ isPreview = false }) => {
           currentTheme={currentTheme}
           onThemeChange={setCurrentTheme}
           onClose={() => setShowCustomizer(false)}
+        />
+      )}
+
+      {showBrandKit && (
+        <BrandKitMatcher
+          onApplyBrandKit={handleApplyBrandKit}
+          onClose={() => setShowBrandKit(false)}
+        />
+      )}
+
+      {showCommunity && (
+        <CommunityLayer
+          userData={userData}
+          onUpdateSettings={handleUpdateCommunitySettings}
+          onClose={() => setShowCommunity(false)}
+        />
+      )}
+
+      {showPrivacy && (
+        <PrivacyAnalytics
+          onUpdateSettings={handleUpdatePrivacySettings}
+          onClose={() => setShowPrivacy(false)}
+        />
+      )}
+
+      {showSEO && (
+        <SEOGenerator
+          userData={userData}
+          onClose={() => setShowSEO(false)}
         />
       )}
       
