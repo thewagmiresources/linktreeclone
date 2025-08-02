@@ -21,7 +21,15 @@ const LinkTreePage = ({ isPreview = false }) => {
   const [showCustomizer, setShowCustomizer] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [showBrandKit, setShowBrandKit] = useState(false);
+  const [showCommunity, setShowCommunity] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showSEO, setShowSEO] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('facebook-classic');
+  const [communityBadges, setCommunityBadges] = useState({
+    link_1: [{ type: 'top_fan', label: 'Top Fan' }],
+    link_3: [{ type: 'first_clicker', label: 'First Clicker' }]
+  });
 
   useEffect(() => {
     // In real app, fetch user data based on username
