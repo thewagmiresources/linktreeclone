@@ -16,6 +16,7 @@ function App() {
           <Route path="/u/:username" element={<LinkTreePage />} />
           <Route path="/preview" element={<LinkTreePage isPreview={true} />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </div>
   );
